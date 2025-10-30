@@ -2,6 +2,22 @@
 
 A simple and beautiful CLI tool for tracking how your life is going. Start your day with intention, track your progress, and reflect on your accomplishments—all from your terminal.
 
+```
+┌─────────────────────────────────────────────────────────┐
+│                   🌅 Start Your Day                     │
+│  Sleep Quality • Gratitude • Daily Goals                │
+│                          ↓                              │
+│                   📋 Track Tasks                         │
+│      Create • Complete • Monitor Progress                │
+│                          ↓                              │
+│                   🌙 Finish Your Day                     │
+│   Day Rating • Productivity • Daily Overview             │
+│                          ↓                              │
+│              📊 View Dashboard & History                 │
+│   Analytics • Trends • Insights • OVERVIEW.md            │
+└─────────────────────────────────────────────────────────┘
+```
+
 ## Features
 
 - **Morning & Evening Logging**: Start your day with gratitude and goals, finish with reflection and overview
@@ -23,13 +39,13 @@ npm install -g lifelog
 ### Local Development
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/hughgramel/lifelog.git
 cd lifelog
 npm install
 npm link
 ```
 
-This will make the `ll` command available globally on your system.
+This will make the `log` command available globally on your system.
 
 ## Usage
 
@@ -38,7 +54,7 @@ This will make the `ll` command available globally on your system.
 #### 1. Start Your Day (Morning)
 
 ```bash
-ll start
+log start
 ```
 
 Begin each morning by:
@@ -51,21 +67,21 @@ Begin each morning by:
 Create tasks as they come up:
 
 ```bash
-ll create "Clean room"
-ll create "Finish project report"
-ll create "Call mom"
+log create "Clean room"
+log create "Finish project report"
+log create "Call mom"
 ```
 
 View and mark tasks complete:
 
 ```bash
-ll tasks
+log tasks
 ```
 
 #### 3. Finish Your Day (Evening)
 
 ```bash
-ll finish
+log finish
 ```
 
 End your day with reflection:
@@ -79,7 +95,7 @@ End your day with reflection:
 Check your current status anytime:
 
 ```bash
-ll
+log
 ```
 
 This shows:
@@ -93,18 +109,18 @@ This shows:
 For a simpler logging experience without the morning/evening split:
 
 ```bash
-ll log
+log log
 ```
 
-**Note**: We recommend using `ll start` and `ll finish` for the full experience!
+**Note**: We recommend using `log start` and `log finish` for the full experience!
 
 ### Create Tasks
 
 Create a new task for today:
 
 ```bash
-ll create "Clean room"
-ll create "Finish project report"
+log create "Clean room"
+log create "Finish project report"
 ```
 
 ### View Tasks
@@ -112,7 +128,7 @@ ll create "Finish project report"
 See all tasks for today and mark them as complete:
 
 ```bash
-ll tasks
+log tasks
 ```
 
 This command will:
@@ -125,7 +141,7 @@ This command will:
 Browse your historical logs with various time ranges:
 
 ```bash
-ll history
+log history
 ```
 
 Choose from:
@@ -150,6 +166,15 @@ All your data is stored locally in JSON files:
 - **Files**:
   - `logs.json` - Your daily log entries
   - `tasks.json` - Your task history
+  - `OVERVIEW.md` - Auto-generated markdown with charts and statistics
+
+```
+~/.lifelog/
+├── logs.json          # Daily log entries
+├── tasks.json         # Task tracking
+├── OVERVIEW.md        # Generated overview with charts
+└── sync-config.json   # Git sync configuration (optional)
+```
 
 You can directly view or back up these files at any time.
 
@@ -202,7 +227,7 @@ git push
 Set up automatic syncing:
 
 ```bash
-ll sync setup
+log sync setup
 ```
 
 This will guide you through:
@@ -211,34 +236,95 @@ This will guide you through:
 - Enabling auto-sync after each log entry
 
 Once configured, your overview will automatically:
-- Be generated after each `ll start` and `ll finish`
+- Be generated after each `log start` and `log finish`
 - Be committed to git
 - Be pushed to your remote repository (if enabled)
 
 Check sync status anytime:
 
 ```bash
-ll sync
+log sync
 ```
 
 Manual sync:
 
 ```bash
-ll sync now
+log sync now
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `ll` | Show the dashboard |
-| `ll start` | Start your day (morning logging) |
-| `ll finish` | Finish your day (evening logging) |
-| `ll log` | Quick log (legacy mode) |
-| `ll create "task"` | Create a new task |
-| `ll tasks` | View and manage today's tasks |
-| `ll history` | View historical logs with filtering |
-| `ll sync [action]` | Manage git sync (setup, now, status) |
+| `log` | Show the dashboard |
+| `log start` | Start your day (morning logging) |
+| `log finish` | Finish your day (evening logging) |
+| `log log` | Quick log (legacy mode) |
+| `log create "task"` | Create a new task |
+| `log bulk` | Create multiple tasks in bulk |
+| `log complete <number>` | Mark a task as complete |
+| `log tasks` | View and manage today's tasks |
+| `log history` | View historical logs with filtering |
+| `log sync [action]` | Manage git sync (setup, now, status) |
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         Lifelog CLI                             │
+└──────────────────────┬──────────────────────────────────────────┘
+                       │
+          ┌────────────┼────────────┐
+          │            │            │
+    ┌─────▼─────┐ ┌───▼────┐ ┌────▼─────┐
+    │ Commands  │ │  Data  │ │  Output  │
+    │  Layer    │ │ Layer  │ │  Layer   │
+    └─────┬─────┘ └───┬────┘ └────┬─────┘
+          │           │            │
+    ┌─────▼─────┐ ┌───▼────┐ ┌────▼─────┐
+    │ • start   │ │ logs   │ │ Terminal │
+    │ • finish  │ │ .json  │ │ Display  │
+    │ • create  │ │ tasks  │ │ OVERVIEW │
+    │ • tasks   │ │ .json  │ │ .md File │
+    │ • history │ │        │ │          │
+    │ • sync    │ │ Git    │ │ GitHub   │
+    └───────────┘ └───┬────┘ └──────────┘
+                      │
+              ┌───────▼────────┐
+              │  ~/.lifelog/   │
+              │  Local Storage │
+              └────────────────┘
+```
+
+## Data Flow
+
+```mermaid
+graph LR
+    A[User Input] --> B{Command}
+    B -->|start/finish| C[Log Entry]
+    B -->|create| D[Task Entry]
+    B -->|tasks| E[View/Complete]
+    B -->|history| F[Analytics]
+
+    C --> G[logs.json]
+    D --> H[tasks.json]
+    E --> H
+    F --> G
+    F --> H
+
+    G --> I[Dashboard]
+    H --> I
+    G --> J[OVERVIEW.md]
+    H --> J
+
+    J --> K[Git Sync]
+    K --> L[GitHub/Remote]
+
+    style A fill:#e1f5ff
+    style I fill:#fff3cd
+    style J fill:#d4edda
+    style L fill:#f8d7da
+```
 
 ## Technologies
 
@@ -257,7 +343,7 @@ npm install
 npm link
 
 # Test the CLI
-ll
+log
 ```
 
 ## Publishing to npm
@@ -276,6 +362,43 @@ ISC
 
 Feel free to open issues or submit pull requests!
 
+## Screenshots & Examples
+
+### Dashboard View
+```
+╔════════════════════════════════════════════════════════════════╗
+║                    📊 Lifelog Dashboard                        ║
+╚════════════════════════════════════════════════════════════════╝
+
+📅 Today: Tuesday, October 30, 2025
+
+Morning Entry: ✅ Completed
+Evening Entry: ⏳ Pending
+
+📋 Today's Tasks: 3 completed / 5 total
+
+📈 7-Day Trends:
+   Day Rating:     8.2/10 ↑
+   Productivity:   4.1/5  ↑
+   Sleep Quality:  4.3/5  →
+
+Quick Actions:
+  • log finish     - Complete evening log
+  • log tasks      - Manage tasks
+  • log history    - View past entries
+```
+
+### OVERVIEW.md Example
+
+Your `OVERVIEW.md` file will display beautiful charts and statistics on GitHub:
+
+- 📊 **Visual Charts**: ASCII art charts showing trends
+- 📈 **Statistics**: Averages, totals, and distributions
+- 📝 **Recent Entries**: Formatted daily logs
+- ✅ **Task Completion**: Daily task tracking visualization
+
+See [OVERVIEW.example.md](./OVERVIEW.example.md) for a full example.
+
 ## Future Enhancements
 
 Possible features to add:
@@ -285,5 +408,7 @@ Possible features to add:
 - Reminders to log daily
 - Mood tracking with emojis
 - Goal setting and tracking
-- Data visualization charts
+- Interactive web dashboard
 - Cloud sync options
+- Data backup and restore
+- Integration with calendar apps
