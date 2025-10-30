@@ -3,10 +3,15 @@ const path = require('path');
 const os = require('os');
 const dayjs = require('dayjs');
 
-const DATA_DIR = path.join(os.homedir(), '.lifelog');
+// Use repo data directory if it exists, otherwise fallback to ~/.lifelog
+const REPO_DATA_DIR = path.join(__dirname, '../../data');
+const HOME_DATA_DIR = path.join(os.homedir(), '.lifelog');
+
+// Check if repo data directory exists
+const DATA_DIR = fs.existsSync(REPO_DATA_DIR) ? REPO_DATA_DIR : HOME_DATA_DIR;
 const LOGS_FILE = path.join(DATA_DIR, 'logs.json');
 const TASKS_FILE = path.join(DATA_DIR, 'tasks.json');
-const OVERVIEW_FILE = path.join(DATA_DIR, 'OVERVIEW.md');
+const OVERVIEW_FILE = path.join(__dirname, '../../OVERVIEW.md'); // Always in repo root
 
 // Ensure data directory exists
 function ensureDataDir() {

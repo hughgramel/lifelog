@@ -160,21 +160,34 @@ You'll see:
 
 ## Data Storage
 
-All your data is stored locally in JSON files:
+Your data is stored in JSON files with flexible location options:
 
+### When Using from Repository
+
+If you're running the app from this cloned repository, data is stored in the `data/` directory:
+
+```
+lifelog/
+├── data/
+│   ├── logs.json      # Your daily log entries
+│   ├── tasks.json     # Your task history
+│   └── README.md      # Data directory documentation
+├── OVERVIEW.md        # Auto-generated overview with charts (root level)
+└── ...
+```
+
+**Benefits:**
+- Your data is tracked with the code
+- Visible on GitHub for easy access from anywhere
+- Automatic backup through git commits
+
+**Privacy:** By default, your data files are public on GitHub. To keep them private, see `data/README.md` for instructions.
+
+### When Installed via npm (Future)
+
+When installed globally via `npm install -g lifelog`, data is stored in:
 - **Location**: `~/.lifelog/`
-- **Files**:
-  - `logs.json` - Your daily log entries
-  - `tasks.json` - Your task history
-  - `OVERVIEW.md` - Auto-generated markdown with charts and statistics
-
-```
-~/.lifelog/
-├── logs.json          # Daily log entries
-├── tasks.json         # Task tracking
-├── OVERVIEW.md        # Generated overview with charts
-└── sync-config.json   # Git sync configuration (optional)
-```
+- **Files**: `logs.json`, `tasks.json`, `OVERVIEW.md`
 
 You can directly view or back up these files at any time.
 

@@ -107,3 +107,7 @@ dist
 # Test data
 src/data/*
 !src/data/.gitkeep
+
+# Optional: Uncomment these lines to keep your personal logs private
+# data/logs.json
+# data/tasks.json

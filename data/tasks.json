@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1761858323837,
+    "name": "clean room",
+    "completed": false,
+    "createdAt": "2025-10-30T21:05:23.837Z",
+    "date": "2025-10-30"
+  },
+  {
+    "id": 1761858575220,
+    "name": "complete one PR one project and fix 2 bugs in a PR",
+    "completed": false,
+    "createdAt": "2025-10-30T21:09:35.220Z",
+    "date": "2025-10-30"
+  },
+  {
+    "id": 1761858646672,
+    "name": "go to gym with gf",
+    "completed": false,
+    "createdAt": "2025-10-30T21:10:46.672Z",
+    "date": "2025-10-30"
+  },
+  {
+    "id": 1761858675556,
+    "name": "finish all pending assignments for classes",
+    "completed": false,
+    "createdAt": "2025-10-30T21:11:15.556Z",
+    "date": "2025-10-30"
+  },
+  {
+    "id": 1761859054650,
+    "name": "apply to 3 internships",
+    "completed": false,
+    "createdAt": "2025-10-30T21:17:34.650Z",
+    "date": "2025-10-30"
+  },
+  {
+    "id": 1761859060182,
+    "name": "check email",
+    "completed": false,
+    "createdAt": "2025-10-30T21:17:40.182Z",
+    "date": "2025-10-30"
+  }
+]
