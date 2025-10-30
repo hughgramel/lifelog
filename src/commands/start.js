@@ -95,7 +95,7 @@ async function startCommand() {
   goals.forEach((goal, i) => {
     console.log(chalk.gray(`  ${i + 1}. ${goal}`));
   });
-  console.log(chalk.blue('\n💪 Have a great day! Use "ll create <task>" to add tasks.\n'));
+  console.log(chalk.blue('\n💪 Have a great day! Use "log create <task>" to add tasks.\n'));
 }
 
 function getSleepLabel(value) {

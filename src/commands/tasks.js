@@ -1,15 +1,14 @@
 const chalk = require('chalk');
 const dayjs = require('dayjs');
-const inquirer = require('inquirer');
-const { getTasksForDate, completeTask } = require('../utils/storage');
+const { getTasksForDate } = require('../utils/storage');
 
-async function tasksCommand() {
+function tasksCommand() {
   const today = dayjs().format('YYYY-MM-DD');
   const tasks = getTasksForDate(today);
 
   if (tasks.length === 0) {
     console.log(chalk.yellow('\n📋 No tasks for today yet!'));
-    console.log(chalk.gray('Create a task with: ll create "task name"\n'));
+    console.log(chalk.gray('Create a task with: log create "task name"\n'));
     return;
   }
 
@@ -22,38 +21,16 @@ async function tasksCommand() {
   });
 
   const completedCount = tasks.filter(t => t.completed).length;
-  console.log(chalk.cyan(`\nCompleted: ${completedCount}/${tasks.length}`));
+  const remainingCount = tasks.length - completedCount;
 
-  // Ask if user wants to mark any as complete
-  const incompleteTasks = tasks.filter(t => !t.completed);
-  if (incompleteTasks.length > 0) {
-    const { action } = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'action',
-        message: 'Would you like to mark a task as complete?',
-        default: false
-      }
-    ]);
+  console.log(chalk.cyan(`\n✅ Completed: ${completedCount}/${tasks.length}`));
 
-    if (action) {
-      const { taskId } = await inquirer.prompt([
-        {
-          type: 'list',
-          name: 'taskId',
-          message: 'Select a task to mark as complete:',
-          choices: incompleteTasks.map(t => ({
-            name: t.name,
-            value: t.id
-          }))
-        }
-      ]);
-
-      completeTask(taskId);
-      console.log(chalk.green('\n✅ Task marked as complete!\n'));
-    }
+  if (remainingCount > 0) {
+    console.log(chalk.gray(`\nTo complete a task: log complete <number>`));
+    console.log(chalk.gray(`Example: log complete 1\n`));
+  } else {
+    console.log(chalk.green.bold('\n🎉 All tasks completed!\n'));
   }
-  console.log();
 }
 
 module.exports = tasksCommand;

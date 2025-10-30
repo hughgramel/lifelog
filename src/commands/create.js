@@ -4,7 +4,7 @@ const { addTask } = require('../utils/storage');
 function createCommand(taskName) {
   if (!taskName || taskName.trim() === '') {
     console.log(chalk.red('\n❌ Please provide a task name!'));
-    console.log(chalk.gray('Usage: ll create "task name"\n'));
+    console.log(chalk.gray('Usage: log create "task name"\n'));
     return;
   }
 

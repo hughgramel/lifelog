@@ -62,7 +62,7 @@ function showSyncStatus() {
 
   if (!config || !config.enabled) {
     console.log(chalk.yellow('Git sync is not configured.'));
-    console.log(chalk.gray('Run: ll sync setup\n'));
+    console.log(chalk.gray('Run: log sync setup\n'));
     return;
   }
 
@@ -77,8 +77,8 @@ function showSyncStatus() {
   }
 
   console.log(chalk.gray('\nCommands:'));
-  console.log(chalk.gray('  ll sync setup - Reconfigure git sync'));
-  console.log(chalk.gray('  ll sync now   - Sync immediately\n'));
+  console.log(chalk.gray('  log sync setup - Reconfigure git sync'));
+  console.log(chalk.gray('  log sync now   - Sync immediately\n'));
 }
 
 module.exports = syncCommand;

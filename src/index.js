@@ -6,6 +6,8 @@ const logCommand = require('./commands/log');
 const startCommand = require('./commands/start');
 const finishCommand = require('./commands/finish');
 const createCommand = require('./commands/create');
+const bulkCommand = require('./commands/bulk');
+const completeCommand = require('./commands/complete');
 const tasksCommand = require('./commands/tasks');
 const historyCommand = require('./commands/history');
 const dashboardCommand = require('./commands/dashboard');
@@ -14,7 +16,7 @@ const syncCommand = require('./commands/sync');
 const program = new Command();
 
 program
-  .name('ll')
+  .name('log')
   .description('A CLI tool for logging how your life is going')
   .version('1.0.0');
 
@@ -81,20 +83,28 @@ program
     createCommand(taskName);
   });
 
+// Bulk create tasks command
+program
+  .command('bulk')
+  .description('Create multiple tasks (enter tasks one per line, Ctrl+C to finish)')
+  .action(async () => {
+    await bulkCommand();
+  });
+
+// Complete task command
+program
+  .command('complete <taskNumber>')
+  .description('Mark a task as complete by its number')
+  .action((taskNumber) => {
+    completeCommand(taskNumber);
+  });
+
 // Tasks command
 program
   .command('tasks')
   .description('Show all tasks for today')
-  .action(async () => {
-    try {
-      await tasksCommand();
-    } catch (error) {
-      if (error.isTtyError) {
-        console.log(chalk.red('Prompt couldn\'t be rendered in the current environment'));
-      } else {
-        console.log(chalk.red('Error:', error.message));
-      }
-    }
+  .action(() => {
+    tasksCommand();
   });
 
 // History command
