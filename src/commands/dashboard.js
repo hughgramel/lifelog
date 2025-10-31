@@ -1,14 +1,21 @@
 const chalk = require('chalk');
 const dayjs = require('dayjs');
-const { getLogForDate, getTasksForDate, readLogs } = require('../utils/storage');
+const { getLogForDate, getTasksForDate, readLogs, rolloverTasks } = require('../utils/storage');
 
 function dashboardCommand() {
+  // Automatically rollover uncompleted tasks from previous days
+  const rolledOver = rolloverTasks();
+
   const today = dayjs();
   const todayStr = today.format('YYYY-MM-DD');
 
   console.log(chalk.blue.bold('\n╔════════════════════════════════════════╗'));
   console.log(chalk.blue.bold('║          LIFELOG DASHBOARD             ║'));
   console.log(chalk.blue.bold('╚════════════════════════════════════════╝\n'));
+
+  if (rolledOver > 0) {
+    console.log(chalk.yellow(`🔄 ${rolledOver} uncompleted task(s) rolled over to today\n`));
+  }
 
   console.log(chalk.cyan(`📅 ${today.format('dddd, MMMM D, YYYY')}\n`));
 

@@ -1,10 +1,16 @@
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const dayjs = require('dayjs');
-const { getLogForDate, updateLog, generateOverview } = require('../utils/storage');
+const { getLogForDate, updateLog, generateOverview, rolloverTasks } = require('../utils/storage');
 const { syncToGit, readGitConfig } = require('../utils/gitSync');
 
 async function startCommand() {
+  // Automatically rollover uncompleted tasks from previous days
+  const rolledOver = rolloverTasks();
+  if (rolledOver > 0) {
+    console.log(chalk.yellow(`\n🔄 ${rolledOver} uncompleted task(s) rolled over to today`));
+  }
+
   const today = dayjs().format('YYYY-MM-DD');
 
   // Check if already started today

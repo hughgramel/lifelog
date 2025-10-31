@@ -8,6 +8,8 @@ const finishCommand = require('./commands/finish');
 const createCommand = require('./commands/create');
 const bulkCommand = require('./commands/bulk');
 const completeCommand = require('./commands/complete');
+const deleteCommand = require('./commands/delete');
+const bulkDeleteCommand = require('./commands/bulkDelete');
 const tasksCommand = require('./commands/tasks');
 const historyCommand = require('./commands/history');
 const dashboardCommand = require('./commands/dashboard');
@@ -97,6 +99,30 @@ program
   .description('Mark a task as complete by its number')
   .action((taskNumber) => {
     completeCommand(taskNumber);
+  });
+
+// Delete task command
+program
+  .command('delete <taskNumber>')
+  .description('Delete a task by its number')
+  .action((taskNumber) => {
+    deleteCommand(taskNumber);
+  });
+
+// Bulk delete tasks command
+program
+  .command('delete-bulk')
+  .description('Delete multiple tasks at once (interactive)')
+  .action(async () => {
+    try {
+      await bulkDeleteCommand();
+    } catch (error) {
+      if (error.isTtyError) {
+        console.log(chalk.red('Prompt couldn\'t be rendered in the current environment'));
+      } else {
+        console.log(chalk.red('Error:', error.message));
+      }
+    }
   });
 
 // Tasks command

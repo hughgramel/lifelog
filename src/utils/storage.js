@@ -112,6 +112,61 @@ function getCompletedTasksCount(date) {
   return tasks.filter(t => t.completed).length;
 }
 
+// Delete a task by ID
+function deleteTask(taskId) {
+  const tasks = readTasks();
+  const filteredTasks = tasks.filter(t => t.id !== taskId);
+  const deleted = tasks.length !== filteredTasks.length;
+  if (deleted) {
+    writeTasks(filteredTasks);
+  }
+  return deleted;
+}
+
+// Delete multiple tasks by IDs
+function bulkDeleteTasks(taskIds) {
+  const tasks = readTasks();
+  const taskIdSet = new Set(taskIds);
+  const filteredTasks = tasks.filter(t => !taskIdSet.has(t.id));
+  const deletedCount = tasks.length - filteredTasks.length;
+  if (deletedCount > 0) {
+    writeTasks(filteredTasks);
+  }
+  return deletedCount;
+}
+
+// Roll over uncompleted tasks from previous days to today
+function rolloverTasks() {
+  const tasks = readTasks();
+  const today = dayjs().format('YYYY-MM-DD');
+  let rolledOverCount = 0;
+
+  // Find uncompleted tasks from previous days
+  const tasksToRollover = tasks.filter(task => {
+    return !task.completed && task.date !== today && dayjs(task.date).isBefore(today, 'day');
+  });
+
+  // Update their dates to today and mark as rolled over
+  const updatedTasks = tasks.map(task => {
+    if (tasksToRollover.find(t => t.id === task.id)) {
+      rolledOverCount++;
+      return {
+        ...task,
+        date: today,
+        rolledOver: true,
+        originalDate: task.originalDate || task.date
+      };
+    }
+    return task;
+  });
+
+  if (rolledOverCount > 0) {
+    writeTasks(updatedTasks);
+  }
+
+  return rolledOverCount;
+}
+
 // Get logs by date range
 function getLogsByDateRange(startDate, endDate) {
   const logs = readLogs();
@@ -358,6 +413,9 @@ module.exports = {
   writeTasks,
   addTask,
   completeTask,
+  deleteTask,
+  bulkDeleteTasks,
+  rolloverTasks,
   getTasksForDate,
   getCompletedTasksCount,
   getLogsByDateRange,

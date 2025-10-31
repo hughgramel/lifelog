@@ -2,9 +2,10 @@
   {
     "id": 1761858323837,
     "name": "clean room",
-    "completed": false,
+    "completed": true,
     "createdAt": "2025-10-30T21:05:23.837Z",
-    "date": "2025-10-30"
+    "date": "2025-10-30",
+    "completedAt": "2025-10-31T03:13:21.249Z"
   },
   {
     "id": 1761858575220,
@@ -16,16 +17,18 @@
   {
     "id": 1761858646672,
     "name": "go to gym with gf",
-    "completed": false,
+    "completed": true,
     "createdAt": "2025-10-30T21:10:46.672Z",
-    "date": "2025-10-30"
+    "date": "2025-10-30",
+    "completedAt": "2025-10-31T03:13:27.580Z"
   },
   {
     "id": 1761858675556,
     "name": "finish all pending assignments for classes",
-    "completed": false,
+    "completed": true,
     "createdAt": "2025-10-30T21:11:15.556Z",
-    "date": "2025-10-30"
+    "date": "2025-10-30",
+    "completedAt": "2025-10-31T03:13:33.037Z"
   },
   {
     "id": 1761859054650,
@@ -37,8 +40,40 @@
   {
     "id": 1761859060182,
     "name": "check email",
-    "completed": false,
+    "completed": true,
     "createdAt": "2025-10-30T21:17:40.182Z",
+    "date": "2025-10-30",
+    "completedAt": "2025-10-31T03:22:37.416Z"
+  },
+  {
+    "id": 1761860872231,
+    "name": "snack overflow survey for meal prepping",
+    "completed": false,
+    "createdAt": "2025-10-30T21:47:52.231Z",
     "date": "2025-10-30"
+  },
+  {
+    "id": 1761860892341,
+    "name": "message cat bowl manufacturers quickly",
+    "completed": true,
+    "createdAt": "2025-10-30T21:48:12.341Z",
+    "date": "2025-10-30",
+    "completedAt": "2025-10-31T03:59:04.758Z"
+  },
+  {
+    "id": 1761861323131,
+    "name": "sign up for credit cards",
+    "completed": true,
+    "createdAt": "2025-10-30T21:55:23.131Z",
+    "date": "2025-10-30",
+    "completedAt": "2025-10-31T03:56:23.633Z"
+  },
+  {
+    "id": 1761861326530,
+    "name": "pay rent",
+    "completed": true,
+    "createdAt": "2025-10-30T21:55:26.530Z",
+    "date": "2025-10-30",
+    "completedAt": "2025-10-31T03:27:27.438Z"
   }
 ]
